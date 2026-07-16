@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fenty Effect — Shade Inclusivity Analysis</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; background: #faf8f5; color: #2c2c2c; }
+  header { background: #1a1a1a; color: #f5e6d3; padding: 48px 40px 36px; }
+  header h1 { font-size: 2.2rem; letter-spacing: -0.5px; margin-bottom: 8px; }
+  header p { font-size: 1rem; color: #c9b8a8; max-width: 680px; line-height: 1.6; }
+  .stats { display: flex; gap: 32px; padding: 32px 40px; background: #f0ebe4; flex-wrap: wrap; }
+  .stat .num { font-size: 2rem; font-weight: bold; color: #b85c3a; }
+  .stat .label { font-size: 0.85rem; color: #666; margin-top: 2px; }
+  .section { padding: 40px; border-bottom: 1px solid #e8e0d6; }
+  .section h2 { font-size: 1.2rem; margin-bottom: 6px; color: #1a1a1a; }
+  .section p { font-size: 0.9rem; color: #666; margin-bottom: 24px; line-height: 1.5; }
+  .chart { width: 100%; height: 420px; }
+  .fenty-line { color: #b85c3a; font-weight: bold; }
+  footer { padding: 32px 40px; font-size: 0.8rem; color: #999; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Fenty Effect</h1>
+  <p>Did Fenty Beauty's landmark 40-shade launch in 2017 drive measurable change in foundation shade diversity across the U.S. cosmetics industry? A data-driven analysis of 314 product lines across 104 brands (2016–2025).</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="num">314</div><div class="label">Product lines analyzed</div></div>
+  <div class="stat"><div class="num">104</div><div class="label">Unique brands</div></div>
+  <div class="stat"><div class="num">0.618</div><div class="label">Avg lightness pre-2017</div></div>
+  <div class="stat"><div class="num">0.635</div><div class="label">Avg lightness post-2017</div></div>
+</div>
+
+<div class="section">
+  <h2>Average Shade Count Over Time</h2>
+  <p>Each point represents the average number of unique shades per product line released that year. The <span class="fenty-line">red dashed line</span> marks Fenty Beauty's 2017 launch.</p>
+  <div id="chart1" class="chart"></div>
+</div>
+
+<div class="section">
+  <h2>Lightness Distribution: Before vs. After 2017</h2>
+  <p>Distribution of shade lightness values (0 = darkest, 1 = lightest) for products released before and after Fenty's launch.</p>
+  <div id="chart2" class="chart"></div>
+</div>
+
+<div class="section">
+  <h2>Top 15 Brands by Average Shade Count</h2>
+  <p>Average number of unique shades per product line across all brands with sufficient data.</p>
+  <div id="chart3" class="chart"></div>
+</div>
+
+<footer>
+  COGS 109 Final Project · UC San Diego · Xuan Yin · Data sourced from U.S. cosmetics product listings (2016–2025)
+</footer>
+
+<script>
+const data = {"yearly": [{"year": 2016, "avg_shade_count": 23.666666666666668}, {"year": 2017, "avg_shade_count": 26.178571428571427}, {"year": 2018, "avg_shade_count": 17.4375}, {"year": 2019, "avg_shade_count": 25.0625}, {"year": 2020, "avg_shade_count": 17.344086021505376}, {"year": 2021, "avg_shade_count": 17.016949152542374}, {"year": 2022, "avg_shade_count": 5.5}, {"year": 2023, "avg_shade_count": 27.5}, {"year": 2024, "avg_shade_count": 15.470588235294118}, {"year": 2025, "avg_shade_count": 49.0}], "pre_hist": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0], "post_hist": [0, 0, 0, 0, 2, 15, 41, 71, 111, 128, 159, 179, 230, 301, 233, 255, 237, 386, 530, 564, 587, 413, 540, 491, 164, 124, 127, 28, 42], "bin_centers": [0.017241379310344827, 0.05172413793103448, 0.08620689655172414, 0.12068965517241378, 0.15517241379310345, 0.1896551724137931, 0.22413793103448276, 0.2586206896551724, 0.2931034482758621, 0.3275862068965517, 0.3620689655172414, 0.39655172413793105, 0.43103448275862066, 0.46551724137931033, 0.5, 0.5344827586206897, 0.5689655172413792, 0.603448275862069, 0.6379310344827587, 0.6724137931034483, 0.7068965517241379, 0.7413793103448276, 0.7758620689655172, 0.8103448275862069, 0.8448275862068966, 0.8793103448275862, 0.9137931034482758, 0.9482758620689655, 0.9827586206896551], "brands": ["TOM FORD", "COVER FX", "SMITH & CULT", "MAC", "beautyblender", "Exa", "Rare Beauty by Selena Gomez", "Morphe", "ZOEVA", "ColourPop", "Juvia's Place", "Dose Of Colors", "UOMA Beauty", "Jouer Cosmetics", "FENTY BEAUTY by Rihanna"], "brand_shades": [34.0, 34.5, 35.0, 35.0, 36.0, 37.0, 38.0, 38.0, 38.0, 40.0, 40.0, 42.0, 44.0, 46.0, 48.0], "total_products": 314, "total_brands": 104, "pre_mean": 0.618, "post_mean": 0.635};
+
+const years = data.yearly.map(d => d.year);
+const shades = data.yearly.map(d => +d.avg_shade_count.toFixed(1));
+
+Plotly.newPlot('chart1', [
+  {x: years, y: shades, type: 'scatter', mode: 'lines+markers',
+    line: {color: '#2c2c2c', width: 2.5}, marker: {color: '#2c2c2c', size: 7},
+    name: 'Avg shade count',
+    hovertemplate: '<b>%{x}</b><br>Avg shades: %{y}<extra></extra>'},
+  {x: [2017, 2017], y: [0, Math.max(...shades) * 1.15], type: 'scatter', mode: 'lines',
+    line: {color: '#b85c3a', width: 2, dash: 'dash'}, name: 'Fenty launch (2017)', hoverinfo: 'skip'}
+], {paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+  margin: {t: 20, b: 50, l: 60, r: 20},
+  xaxis: {title: 'Release Year', gridcolor: '#e8e0d6'},
+  yaxis: {title: 'Avg Shade Count', gridcolor: '#e8e0d6'},
+  legend: {orientation: 'h', y: -0.2},
+  font: {family: 'Georgia, serif', color: '#2c2c2c'}}, {responsive: true});
+
+Plotly.newPlot('chart2', [
+  {x: data.bin_centers, y: data.pre_hist, type: 'bar', name: 'Pre-2017',
+    marker: {color: 'rgba(44,44,44,0.6)'},
+    hovertemplate: 'Lightness: %{x:.2f}<br>Count: %{y}<extra>Pre-2017</extra>'},
+  {x: data.bin_centers, y: data.post_hist, type: 'bar', name: 'Post-2017',
+    marker: {color: 'rgba(184,92,58,0.6)'},
+    hovertemplate: 'Lightness: %{x:.2f}<br>Count: %{y}<extra>Post-2017</extra>'}
+], {barmode: 'overlay', paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+  margin: {t: 20, b: 50, l: 60, r: 20},
+  xaxis: {title: 'Lightness (0 = darkest, 1 = lightest)', gridcolor: '#e8e0d6'},
+  yaxis: {title: 'Shade Count', gridcolor: '#e8e0d6'},
+  legend: {orientation: 'h', y: -0.2},
+  font: {family: 'Georgia, serif', color: '#2c2c2c'}}, {responsive: true});
+
+Plotly.newPlot('chart3', [
+  {x: data.brand_shades, y: data.brands, type: 'bar', orientation: 'h',
+    marker: {color: '#b85c3a'},
+    hovertemplate: '%{y}<br>Avg shades: %{x:.1f}<extra></extra>'}
+], {paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+  margin: {t: 20, b: 50, l: 160, r: 40},
+  xaxis: {title: 'Avg Shade Count per Product Line', gridcolor: '#e8e0d6'},
+  yaxis: {gridcolor: '#e8e0d6'},
+  font: {family: 'Georgia, serif', color: '#2c2c2c'}}, {responsive: true});
+</script>
+</body>
+</html>
